@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.Ahamad</groupId>
     <artifactId>Mohabath</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version> <!-- Use 1.0.0 for RELEASE, 1.0.0-SNAPSHOT for SNAPSHOT -->
+
     <packaging>jar</packaging>
 
     <name>Mohabath</name>
@@ -25,10 +26,21 @@
         <!-- SonarQube properties -->
         <sonar.projectKey>Mohabath</sonar.projectKey>
         <sonar.projectName>Mohabath</sonar.projectName>
-        <sonar.host.url>http://98.93.7.62:9000</sonar.host.url> <!-- Replace with your SonarQube URL if different -->
-         <!-- SonarQube authentication token -->
-    <sonar.login>squ_b577ff882c4a65cfb21e5a9ebaed4fcabd9c12a4</sonar.login>
+        <sonar.host.url>http://98.93.7.62:9000</sonar.host.url>
+        <sonar.login>squ_b577ff882c4a65cfb21e5a9ebaed4fcabd9c12a4</sonar.login>
     </properties>
+
+    <!-- ⭐ Distribution Management for SNAPSHOT and RELEASE -->
+    <distributionManagement>
+        <repository>
+            <id>maven-release</id>
+            <url>http://98.80.201.217:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>mvnn-Snapshot</id>
+            <url>http://50.17.143.112:8081/repository/mvnn-Snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -110,50 +122,6 @@
                 </plugins>
             </build>
         </profile>
-
-        <profile>
-            <id>graal</id>
-            <properties>
-                <graal.version>19.2.1</graal.version>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.experimental</groupId>
-                    <artifactId>spring-graal-native-feature</artifactId>
-                    <version>0.6.0.BUILD-SNAPSHOT</version>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.oracle.substratevm</groupId>
-                        <artifactId>native-image-maven-plugin</artifactId>
-                        <version>${graal.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.oracle.substratevm</groupId>
-                                <artifactId>svm</artifactId>
-                                <version>${graal.version}</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>native-image</goal>
-                                </goals>
-                                <phase>package</phase>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <mainClass>${start-class}</mainClass>
-                            <detail>true</detail>
-                            <imageName>${project.artifactId}-${os.detected.classifier}</imageName>
-                            <outputDirectory>${basedir}/target/classes</outputDirectory>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
 
     <repositories>
@@ -161,7 +129,7 @@
             <id>spring-snapshots</id>
             <name>Spring Snapshots</name>
             <url>https://repo.spring.io/snapshot</url>
-            <snapshots></snapshots>
+            <snapshots/>
         </repository>
     </repositories>
 
